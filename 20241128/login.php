@@ -20,6 +20,7 @@ if (isset($_POST['loginsubmit'])) {
     $uId = checkUser($_POST['inputmail'], $_POST['inputpass']);
     if ($uId) {
         logIn($uId);
+        $_SESSION['messages'][] = ['type' => 'notif', 'content' => "Welcome, " . $_POST['inputfn']];
 
         header("Location: admin.php");
         exit;

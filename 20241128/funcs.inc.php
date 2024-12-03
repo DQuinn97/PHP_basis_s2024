@@ -36,3 +36,15 @@ function logIn($uId)
     $_SESSION['userId'] = $uId;
     $_SESSION['loggedin'] = time() + 3600;
 }
+
+function showMessages()
+{
+    if (isset($_SESSION['messages'])):
+        foreach ($_SESSION['messages'] as $message):
+            echo '<div class="alert text-white bg-primary" role="alert">
+                ' . $message['content'] . '<div class="alert-text"></div>
+             </div>';
+        endforeach;
+        unset($_SESSION['messages']);
+    endif;
+}

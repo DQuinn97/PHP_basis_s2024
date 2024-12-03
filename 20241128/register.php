@@ -42,6 +42,7 @@ if (isset($_POST['registersubmit'])) {
         if (!$newId) $errors[] = "Something went wrong...";
         else {
             logIn($newId);
+            $_SESSION['messages'][] = ['type' => 'notif', 'content' => "Welcome, " . $_POST['inputfn']];
 
             header("Location: admin.php");
             exit;
