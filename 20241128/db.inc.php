@@ -34,7 +34,7 @@ function register(String $fn, String $ln, String $email, String $password, Int $
 // CHECK IF USER EXISTS
 function checkEmail(String $email): bool
 {
-    $sql = "SELECT id FROM users WHERE mail = :mail;";
+    $sql = "SELECT id FROM users WHERE mail = :mail AND status=1;";
     $stmt = connectToDB()->prepare($sql);
     $stmt->execute([':mail' => $email]);
     $exists = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -44,8 +44,25 @@ function checkEmail(String $email): bool
 // CHECK IF USER EXISTS WITH PASSWORD
 function checkUser(String $email, String $password): bool | int
 {
-    $sql = "SELECT id FROM users WHERE mail = :mail AND password = :password;";
+    $sql = "SELECT id FROM users WHERE mail = :mail AND password = :password AND status=1;";
     $stmt = connectToDB()->prepare($sql);
     $stmt->execute([':mail' => $email, ':password' => md5($password)]);
     return $stmt->fetchColumn();
+}
+
+// GET USER INFO
+function getUser(Int $uId): bool | array
+{
+    $sql = "SELECT * FROM users WHERE id=:id;";
+    $stmt = connectToDB()->prepare($sql);
+    $stmt->execute([':id' => $uId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getArticles(): array
+{
+    $sql = "SELECT articles.id, title, articles.status, publication_date, CONCAT(firstname, ' ', lastname) as name FROM articles JOIN users ON users.id=user_id;";
+    $stmt = connectToDB()->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

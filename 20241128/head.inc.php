@@ -1,3 +1,12 @@
+<?php
+// // include('db.inc.php');
+// $user = null;
+// // if (isset($_SESSION['userId'])) $user = getUser($_SESSION['userId']);
+// print '<pre>';
+// print_r($user);
+// print '</pre>';
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
