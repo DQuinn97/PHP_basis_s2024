@@ -1,13 +1,8 @@
 <?php
-print '<pre>';
-print_r($_POST);
-print '</pre>';
 
-session_start();
-if (!@$_SESSION['loggedin']) {
-    header("Location: login.php");
-    exit;
-}
+
+require('funcs.inc.php');
+requiredLoggedIn();
 
 
 

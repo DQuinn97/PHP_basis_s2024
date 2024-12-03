@@ -1,11 +1,14 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 print '<pre>';
 print_r($_POST);
 print '</pre>';
 
-session_start();
-
-$_SESSION['loggedin'] = false;
+require("funcs.inc.php");
+requiredLoggedOut();
 
 $errors = [];
 
@@ -13,8 +16,10 @@ if (isset($_POST['loginsubmit'])) {
     if (!strlen($_POST['inputmail'])) $errors[] = "Please enter email...";
     if (!strlen($_POST['inputpass'])) $errors[] = "Please enter password...";
 
-    if (($_POST['inputmail'] == "user@user.com") && ($_POST['inputpass'] == "password")) {
-        $_SESSION['loggedin'] = true;
+    require('db.inc.php');
+    $uId = checkUser($_POST['inputmail'], $_POST['inputpass']);
+    if ($uId) {
+        logIn($uId);
 
         header("Location: admin.php");
         exit;
@@ -73,7 +78,7 @@ if (isset($_POST['loginsubmit'])) {
                                         </div>
                                         <button name="loginsubmit" id="loginsubmit" class="btn_1 full_width text-center" value=1>Login</button>
                                     </form>
-                                    <p>Need an account? <a data-bs-toggle="modal" data-bs-target="#sing_up" data-bs-dismiss="modal" href="#"> Sign Up</a></p>
+                                    <p>Need an account? <a data-bs-toggle="modal" data-bs-target="#sing_up" data-bs-dismiss="modal" href="register.php"> Sign Up</a></p>
                                     <div class="text-center">
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#forgot_password" data-bs-dismiss="modal" class="pass_forget_btn">Forget Password?</a>
                                     </div>
